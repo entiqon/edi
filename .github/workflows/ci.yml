@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Detect .go changes
+        id: changes
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            git fetch origin "${{ github.base_ref }}" --depth=1
+            CHANGED="$(git diff --name-only "origin/${{ github.base_ref }}"..."${{ github.sha }}")"
+          else
+            CHANGED="$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}")"
+          fi
+
+          echo "Changed files:"
+          echo "$CHANGED"
+
+          if echo "$CHANGED" | grep -E '\.go$' >/dev/null; then
+            echo "go_changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go_changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run tests
+        if: steps.changes.outputs.go_changed == 'true'
+        run: |
+          go test ./... -count=1
+
+      - name: Skip tests (no .go changes)
+        if: steps.changes.outputs.go_changed != 'true'
+        run: echo "No .go files changed; skipping go test."

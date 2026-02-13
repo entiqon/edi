@@ -1,0 +1,33 @@
+name: PR Policy
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  single-commit:
+    name: single-commit
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Ensure PR has exactly 1 commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "${{ github.base_ref }}" --depth=1
+
+          COUNT=$(git rev-list --count "origin/${{ github.base_ref }}..HEAD")
+          echo "PR commit count: $COUNT"
+
+          if [[ "$COUNT" -ne 1 ]]; then
+            echo "PR must contain exactly 1 commit (found $COUNT)."
+            echo "Fix: squash commits into one (interactive rebase) and push."
+            exit 1
+          fi
