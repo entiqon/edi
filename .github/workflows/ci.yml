@@ -20,12 +20,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
           cache: true
@@ -52,11 +52,53 @@ jobs:
             echo "go_changed=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Run tests
+      - name: Install GoTestX
+        if: steps.changes.outputs.go_changed == 'true'
+        run: go install github.com/entiqon/gotestx@v1.0.0
+
+      - name: Run tests with coverage (excluding cmd/)
+        if: steps.changes.outputs.go_changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Exclude any packages under cmd/
+          pkgs="$(go list ./... | grep -v '/cmd\(/.*\)\?$' || true)"
+
+          if [[ -z "$pkgs" ]]; then
+            echo "No packages to test (after excluding cmd/)."
+            exit 0
+          fi
+
+          # gotestx should write coverage.out in repo root when -c is used
+          gotestx -c $pkgs
+
+      - name: Show coverage %
         if: steps.changes.outputs.go_changed == 'true'
         run: |
-          go test ./... -count=1
+          echo "Total coverage:"
+          go tool cover -func=coverage.out | grep total
+
+      - name: Enforce minimum 80% coverage
+        if: steps.changes.outputs.go_changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          pct=$(go tool cover -func=coverage.out | grep total | awk '{print substr($3, 1, length($3)-1)}')
+          echo "Coverage: $pct%"
+          awk -v p="$pct" 'BEGIN {exit !(p >= 80)}'
+
+      # Upload ONLY after "Rebase and merge" (i.e., push to main)
+      - name: Upload coverage report to Codecov
+        if: steps.changes.outputs.go_changed == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage.out
+          flags: gotestx
+          fail_ci_if_error: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Skip tests (no .go changes)
         if: steps.changes.outputs.go_changed != 'true'
-        run: echo "No .go files changed; skipping go test."
+        run: echo "No .go files changed; skipping tests + coverage."
