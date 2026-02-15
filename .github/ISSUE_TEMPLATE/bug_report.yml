@@ -1,0 +1,114 @@
+name: "🐛 Bug Report"
+description: Report a reproducible bug or regression in Entiqon EDI
+title: "[BUG] "
+labels:
+  - bug
+  - needs-triage
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug in **Entiqon EDI**.
+        Please provide as much detail as possible so we can reproduce and resolve the issue efficiently.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 📝 Description
+      description: Provide a clear and concise description of the issue.
+      placeholder: Describe what is happening...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: ✅ Expected Behavior
+      description: What did you expect to happen?
+      placeholder: Describe the expected outcome...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: ❌ Actual Behavior
+      description: What actually happened? Include logs or stack traces if applicable.
+      render: text
+      placeholder: |
+        Example:
+        panic: unexpected segment
+        stack trace...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 🧩 Steps to Reproduce
+      description: Provide a minimal, complete, verifiable example (MCVE).
+      render: go
+      placeholder: |
+        // Minimal Go example reproducing the issue
+        package main
+        func main() {}
+    validations:
+      required: true
+
+  - type: dropdown
+    id: layer
+    attributes:
+      label: 🏗 Affected Layer
+      description: Select the primary affected layer.
+      options:
+        - Canonical model
+        - BOD adapter
+        - X12 parser
+        - X12 generator
+        - Transaction registry
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: go_version
+    attributes:
+      label: Go Version
+      description: Output of `go version`
+      placeholder: go version go1.22.0 darwin/arm64
+    validations:
+      required: true
+
+  - type: input
+    id: entiqon_version
+    attributes:
+      label: Entiqon Version
+      description: Tag (e.g. v0.1.0) or commit SHA
+      placeholder: v0.1.0-dev.1 or abc1234
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      placeholder: macOS 14, Ubuntu 22.04, Windows 11
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: ➕ Additional Context
+      description: Add any additional architectural or behavioral context.
+      placeholder: Any extra details...
+
+  - type: checkboxes
+    id: willingness
+    attributes:
+      label: 🙋 Willing to Help?
+      options:
+        - label: I can open a PR to fix this
+        - label: I can help validate a fix
+        - label: Reporting only

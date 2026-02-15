@@ -1,0 +1,92 @@
+name: "🌈 Feature Request"
+description: Suggest a new feature or enhancement for Entiqon EDI
+title: "[FEATURE] "
+labels:
+  - enhancement
+  - needs-triage
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping shape the future of **Entiqon EDI**.
+        Please describe the feature clearly and explain how it aligns with the canonical architecture.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: ❓ The Problem
+      description: Describe the problem or gap this feature addresses.
+      placeholder: |
+        Example:
+        There is no canonical representation for X document type...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 💡 Proposed Solution
+      description: Describe the feature and how it solves the problem.
+      placeholder: |
+        Example:
+        Introduce a canonical model for...
+        Add an adapter layer for...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: layer
+    attributes:
+      label: 🏗 Affected Layer
+      description: Select the primary area this feature impacts.
+      options:
+        - Canonical model
+        - BOD adapter
+        - X12 parser
+        - X12 generator
+        - Transaction registry
+        - Documentation
+        - Tooling / CI
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🔄 Alternatives Considered
+      description: List any alternatives, workarounds, or reasons this is the best solution.
+      placeholder: |
+        Example:
+        Alternative approach considered was...
+        Rejected because...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: architectural_alignment
+    attributes:
+      label: 🧱 Architectural Alignment
+      description: Confirm alignment with core principles.
+      options:
+        - label: Does not introduce ERP-specific logic into canonical
+        - label: Does not leak X12 segments into canonical
+        - label: Respects BOD ⇄ Canonical ⇄ X12 separation
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: ➕ Additional Context
+      description: Add examples, use cases, or implementation notes.
+      placeholder: Additional details...
+
+  - type: checkboxes
+    id: willingness
+    attributes:
+      label: 🙋 Willing to Help?
+      options:
+        - label: I can open a PR to implement this
+        - label: I can help design the solution
+        - label: I can help validate implementation
+        - label: Reporting only
