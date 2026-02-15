@@ -33,7 +33,7 @@ var lineStatusCases = []lineStatusCase{
 		" CHANGED ",
 	}},
 
-	{po.LineBackorder, "BACKORDER", true, []string{
+	{po.LineBackordered, "BACKORDER", true, []string{
 		"backorder",
 		" BACKORDER ",
 	}},
@@ -51,6 +51,24 @@ func TestLineStatus(t *testing.T) {
 		for _, tc := range lineStatusCases {
 			if got := tc.status.String(); got != tc.text {
 				t.Fatalf("String(%v) = %q, want %q", tc.status, got, tc.text)
+			}
+		}
+	})
+
+	t.Run("IsAccepted", func(t *testing.T) {
+		tests := []struct {
+			status po.LineStatus
+			want   bool
+		}{
+			{po.LineAccepted, true},
+			{po.LineApproved, true},
+			{po.LineRejected, false},
+			{po.LineBackordered, false},
+		}
+
+		for _, tt := range tests {
+			if got := tt.status.IsAccepted(); got != tt.want {
+				t.Errorf("IsAccepted() = %v, want %v", got, tt.want)
 			}
 		}
 	})
