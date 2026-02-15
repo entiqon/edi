@@ -7,8 +7,8 @@ import (
 
 // LineStatus represents the acknowledgment status of a purchase order line.
 //
-// LineStatus is canonical and intentionally independent of X12 codes (IA, IC, IR, IB).
-// Conversions to/from X12 belong in transformation layers.
+// LineStatus is canonical and intentionally independent of external codes.
+// String values are stable and intended for logging and text-based encodings.
 type LineStatus int
 
 const (
@@ -19,13 +19,16 @@ const (
 	// LineAccepted indicates the line was fully accepted with no changes.
 	LineAccepted
 
+	// LineApproved indicates the line was fully approved with no changes.
+	LineApproved
+
 	// LineChanged indicates the line was accepted with changes
 	// (e.g., quantity/date modifications).
 	LineChanged
 
-	// LineBackorder indicates the line was partially fulfilled and the remaining
+	// LineBackordered indicates the line was partially fulfilled and the remaining
 	// quantity is backordered.
-	LineBackorder
+	LineBackordered
 
 	// LineRejected indicates the line was rejected.
 	LineRejected
@@ -41,17 +44,21 @@ func (s LineStatus) IsValid() bool {
 // Values are stable and intended for logging, debugging, and text-based encodings.
 func (s LineStatus) String() string {
 	switch s {
-	case LineAccepted:
+	case LineAccepted, LineApproved:
 		return "ACCEPTED"
 	case LineChanged:
 		return "CHANGED"
-	case LineBackorder:
+	case LineBackordered:
 		return "BACKORDER"
 	case LineRejected:
 		return "REJECTED"
 	default:
 		return "UNKNOWN"
 	}
+}
+
+func (s LineStatus) IsAccepted() bool {
+	return s == LineAccepted || s == LineApproved
 }
 
 // MarshalText implements encoding.TextMarshaler, allowing LineStatus to be
@@ -98,12 +105,12 @@ func LineStatusFrom(value any) LineStatus {
 
 	case string:
 		switch strings.ToUpper(strings.TrimSpace(v)) {
-		case "ACCEPTED":
+		case "ACCEPTED", "APPROVED":
 			return LineAccepted
 		case "CHANGED":
 			return LineChanged
 		case "BACKORDER":
-			return LineBackorder
+			return LineBackordered
 		case "REJECTED":
 			return LineRejected
 		case "UNKNOWN":

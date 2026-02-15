@@ -50,6 +50,24 @@ func TestStatus(t *testing.T) {
 		}
 	})
 
+	t.Run("IsAccepted", func(t *testing.T) {
+		tests := []struct {
+			status po.Status
+			want   bool
+		}{
+			{po.StatusAccepted, true},
+			{po.StatusApproved, true},
+			{po.StatusRejected, false},
+			{po.StatusPartial, false},
+		}
+
+		for _, tt := range tests {
+			if got := tt.status.IsAccepted(); got != tt.want {
+				t.Errorf("IsAccepted() = %v, want %v", got, tt.want)
+			}
+		}
+	})
+
 	t.Run("IsValid", func(t *testing.T) {
 		for _, tc := range statusCases {
 			if got := tc.status.IsValid(); got != tc.isValid {

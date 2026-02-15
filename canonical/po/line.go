@@ -1,8 +1,8 @@
 package po
 
-// AcknowledgmentLine represents the acknowledgment
+// Line represents the acknowledgment
 // details of a single purchase order line.
-type AcknowledgmentLine struct {
+type Line struct {
 	// LineID is the buyer's line number.
 	LineID string
 
@@ -13,13 +13,13 @@ type AcknowledgmentLine struct {
 	OrderedQty float64
 
 	// AcceptedQty is the quantity confirmed by the supplier.
-	AcceptedQty float64
+	AcceptedQty *float64
 
 	// BackorderQty is the quantity placed on backorder.
-	BackorderQty float64
+	BackorderQty *float64
 
 	// RejectedQty is the quantity rejected.
-	RejectedQty float64
+	RejectedQty *float64
 
 	// Status represents the acknowledgment status of this line.
 	Status LineStatus

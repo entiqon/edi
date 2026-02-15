@@ -6,13 +6,10 @@ import (
 )
 
 // Status represents the header-level status
-// of a Purchase Order Acknowledgment (EDI 855).
+// of a Purchase Order Acknowledgment.
 //
 // It summarizes the overall outcome of the order after
-// supplier processing.
-//
-// The zero value (StatusUnknown) represents an undefined
-// or not-yet-determined state.
+// supplier processing and dictates the top-level business state.
 type Status int
 
 const (
@@ -24,6 +21,9 @@ const (
 	// without changes.
 	StatusAccepted
 
+	// StatusApproved is a synonym for accepted in specific workflows.
+	StatusApproved
+
 	// StatusPartial indicates at least one line was changed,
 	// backordered, or rejected while others were accepted.
 	StatusPartial
@@ -31,6 +31,10 @@ const (
 	// StatusRejected indicates the entire order was rejected.
 	StatusRejected
 )
+
+func (s Status) IsAccepted() bool {
+	return s == StatusAccepted || s == StatusApproved
+}
 
 // IsValid reports whether the status represents
 // a valid business state.
@@ -44,7 +48,7 @@ func (a Status) IsValid() bool {
 // This method is safe for logging and serialization.
 func (a Status) String() string {
 	switch a {
-	case StatusAccepted:
+	case StatusAccepted, StatusApproved:
 		return "ACCEPTED"
 	case StatusPartial:
 		return "PARTIAL"
@@ -98,7 +102,7 @@ func StatusFrom(v any) Status {
 
 	case string:
 		switch strings.ToUpper(strings.TrimSpace(x)) {
-		case "ACCEPTED":
+		case "ACCEPTED", "APPROVED":
 			return StatusAccepted
 		case "PARTIAL":
 			return StatusPartial

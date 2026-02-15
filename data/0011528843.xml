@@ -1,0 +1,106 @@
+<M3EDISalesOrder>
+    <TradingPartnerID accountingEntity="100_200" schemeName="94409">365564</TradingPartnerID>
+    <SalesOrderHeader>
+        <DocumentID>
+            <ID accountingEntity="100_200" lid="lid://infor.m3.m3" location="R1A" variationID="3058812">0011528843</ID>
+        </DocumentID>
+        <AlternateDocumentID>
+            <ID schemeAgencyID="365564" schemeName="Customer">32777109</ID>
+        </AlternateDocumentID>
+        <DisplayID>0011528843</DisplayID>
+        <LastModificationDateTime>2026-03-02T09:14:22.000Z</LastModificationDateTime>
+        <DocumentDateTime>2026-03-02T00:00:00.000Z</DocumentDateTime>
+        <Status>
+            <Code>Approved</Code>
+            <EffectiveDateTime>2026-03-02T00:00:00.000Z</EffectiveDateTime>
+            <ArchiveIndicator>false</ArchiveIndicator>
+        </Status>
+
+        <CustomerParty>
+            <PartyIDs>
+                <ID accountingEntity="100_200">365564</ID>
+            </PartyIDs>
+            <Name>JCPENNEY</Name>
+        </CustomerParty>
+
+        <ShipToParty>
+            <PartyIDs>
+                <ID accountingEntity="100_200">94409</ID>
+            </PartyIDs>
+            <Name>JCP 94409</Name>
+        </ShipToParty>
+
+        <ShipFromParty>
+            <PartyIDs>
+                <ID accountingEntity="100_200">R1A</ID>
+            </PartyIDs>
+            <Name>Texas 3PL Distribution Center</Name>
+        </ShipFromParty>
+
+        <ExtendedAmount currencyID="USD">198.00</ExtendedAmount>
+        <TotalAmount currencyID="USD">198.00</TotalAmount>
+
+        <PaymentTerm>
+            <PaymentTermCode listID="Payment Term">N45</PaymentTermCode>
+            <Term>
+                <ID>N45</ID>
+                <Description>45 days net</Description>
+            </Term>
+        </PaymentTerm>
+
+        <TransportationTerm>
+            <IncotermsCode listID="Delivery terms">FOB</IncotermsCode>
+        </TransportationTerm>
+
+        <EarliestDeliveryDateTime>2026-03-18T00:00:00.000Z</EarliestDeliveryDateTime>
+        <RequiredDeliveryDateTime>2026-03-25T00:00:00.000Z</RequiredDeliveryDateTime>
+
+        <OrderTypeCode>EDI</OrderTypeCode>
+    </SalesOrderHeader>
+
+    <SalesOrderLine>
+        <LineNumber>1</LineNumber>
+        <Description>Arden SHIMMER LOAFER / 12</Description>
+
+        <DocumentReference type="CustomerPurchaseOrder">
+            <DocumentID>
+                <ID accountingEntity="100_200">32777109</ID>
+            </DocumentID>
+            <LineNumber>0</LineNumber>
+        </DocumentReference>
+
+        <Status>
+            <Code>Approved</Code>
+            <EffectiveDateTime>2026-03-02T00:00:00.000Z</EffectiveDateTime>
+            <ArchiveIndicator>false</ArchiveIndicator>
+        </Status>
+
+        <Item>
+            <ItemID>
+                <ID accountingEntity="100_200">A1147GLD12</ID>
+            </ItemID>
+            <UPCID>198536600112</UPCID>
+            <GTIN schemeName="UPC">198536600112</GTIN>
+            <Description>Arden SHIMMER LOAFER</Description>
+        </Item>
+
+        <Quantity unitCode="PR">12</Quantity>
+
+        <UnitPrice>
+            <Amount currencyID="USD">16.50</Amount>
+            <BaseAmount currencyID="USD">198.0000</BaseAmount>
+            <PerQuantity unitCode="PR">1</PerQuantity>
+        </UnitPrice>
+
+        <ExtendedAmount currencyID="USD">198.00</ExtendedAmount>
+        <ExtendedBaseAmount currencyID="USD">198.00</ExtendedBaseAmount>
+        <TotalAmount currencyID="USD">198.00</TotalAmount>
+
+        <RequiredDeliveryDateTime>2026-03-25T00:00:00.000Z</RequiredDeliveryDateTime>
+
+        <PriceOverrideIndicator>false</PriceOverrideIndicator>
+        <RushIndicator>false</RushIndicator>
+        <DropShipIndicator>false</DropShipIndicator>
+    </SalesOrderLine>
+
+</M3EDISalesOrder>

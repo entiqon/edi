@@ -27,5 +27,5 @@ type PurchaseOrderAcknowledgment struct {
 	Status Status
 
 	// Lines contains all acknowledged purchase order lines.
-	Lines []AcknowledgmentLine
+	Lines []Line
 }
