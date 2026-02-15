@@ -1,3 +1,7 @@
+
+
+[![codecov](https://codecov.io/gh/entiqon/edi/graph/badge.svg?token=ec14R1zZk1)](https://codecov.io/gh/entiqon/edi)
+
 ## Goals
 
 - ERP-independent canonical models
@@ -5,7 +9,7 @@
   - [ ] 832 Price/Sales Catalog
   - [ ] 846 Inventory Inquiry/Advice
   - [ ] 850 Purchase Order (IN + OUT)
-  - [ ] 855 Purchase Order Acknowledgment (IN + OUT)
+  - [ ] **(WIP)** 855 Purchase Order Acknowledgment (IN + OUT)
   - [ ] 856 Advance Ship Notice (IN + OUT)
   - [ ] 870 Order Status Report
   - [ ] 940 Warehouse Shipping Order
