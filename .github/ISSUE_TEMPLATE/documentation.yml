@@ -1,0 +1,69 @@
+name: "📝 Documentation Issue"
+description: Report unclear, missing, or incorrect documentation in Entiqon EDI
+title: "[DOCS] "
+labels:
+  - documentation
+  - needs-triage
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve the documentation of **Entiqon EDI**.
+        Clear documentation is essential for maintaining architectural integrity and canonical isolation.
+
+  - type: textarea
+    id: unclear_section
+    attributes:
+      label: ❓ What was unclear or insufficient?
+      description: Be specific — include file name, section header, or direct link.
+      placeholder: |
+        Example:
+        README.md → Goals section
+        doc.go in canonical package
+    validations:
+      required: true
+
+  - type: textarea
+    id: recommended_fix
+    attributes:
+      label: 💡 Recommended Fix
+      description: Suggest improvements (examples, clarifications, restructuring, etc.)
+      placeholder: |
+        Example:
+        - Add a canonical transformation example
+        - Clarify BOD vs canonical responsibilities
+    validations:
+      required: true
+
+  - type: dropdown
+    id: documentation_area
+    attributes:
+      label: 📂 Documentation Area
+      description: Select the primary documentation area affected.
+      options:
+        - README.md
+        - doc.go
+        - example_test.go
+        - CHANGELOG.md
+        - CONTRIBUTING.md
+        - Architecture section
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: ➕ Additional Context
+      description: Any extra context that may help maintainers understand the issue.
+      placeholder: Additional notes...
+
+  - type: checkboxes
+    id: willingness
+    attributes:
+      label: 🙋 Willing to Help?
+      options:
+        - label: I can open a PR to fix this
+        - label: I can propose wording improvements
+        - label: Reporting only
